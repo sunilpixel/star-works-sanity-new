@@ -347,8 +347,13 @@ export default defineType({
 
               fields: [
                 defineField({
-                  name: 'number',
-                  title: 'Number',
+                  name: 'prevNumber',
+                  title: 'prevNumber',
+                  type: 'string',
+                }),
+                defineField({
+                  name: 'nextNumber',
+                  title: 'nextNumber',
                   type: 'string',
                 }),
 
