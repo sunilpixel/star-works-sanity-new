@@ -1,14 +1,14 @@
 export default function deskStructure(S: any) {
   return S.list()
-    .title("Star Works CMS")
+    .title('Star Works CMS')
     .items([
       // ======================
       // HEADER
       // ======================
       S.listItem()
-        .title("Header")
-        .icon(() => "🧭")
-        .child(S.document().schemaType("header").documentId("mainHeader")),
+        .title('Header')
+        .icon(() => '🧭')
+        .child(S.document().schemaType('header').documentId('mainHeader')),
 
       S.divider(),
 
@@ -16,18 +16,18 @@ export default function deskStructure(S: any) {
       // FOOTER
       // ======================
       S.listItem()
-        .title("Footer")
-        .icon(() => "🦶")
-        .child(S.document().schemaType("footer").documentId("mainFooter")),
+        .title('Footer')
+        .icon(() => '🦶')
+        .child(S.document().schemaType('footer').documentId('mainFooter')),
 
       S.divider(),
 
       // ======================
-      // SERVICES
+      // SERVICESDetails
       // ======================
       S.listItem()
-        .title("Services")
-        .icon(() => "⚡")
-        .child(S.documentTypeList("service").title("Services")),
-    ]);
+        .title('Service Details')
+        .icon(() => '⚡')
+        .child(S.documentTypeList('serviceDetails').title('Service ')),
+    ])
 }

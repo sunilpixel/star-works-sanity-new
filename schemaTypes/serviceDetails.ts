@@ -3,8 +3,8 @@ import {faqSection} from './objects/faqSection'
 import {ctaSection} from './objects/ctaSection'
 
 export default defineType({
-  name: 'service',
-  title: 'Services',
+  name: 'serviceDetails',
+  title: 'Services-Details',
   type: 'document',
 
   fields: [
@@ -399,7 +399,7 @@ export default defineType({
 
     defineField({
       name: 'ctaSection',
-      title: 'FAQ Section',
+      title: 'CTA Section',
       type: 'ctaSection',
     }),
   ],
