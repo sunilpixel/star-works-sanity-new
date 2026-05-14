@@ -23,6 +23,17 @@ export default function deskStructure(S: any) {
       S.divider(),
 
       // ======================
+      // SERVICES PAGE
+      // ======================
+
+      S.listItem()
+        .title('Services Page')
+        .icon(() => '🚀')
+        .child(S.document().schemaType('services').documentId('servicesPage')),
+
+      S.divider(),
+
+      // ======================
       // SERVICESDetails
       // ======================
       S.listItem()
