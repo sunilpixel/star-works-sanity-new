@@ -84,56 +84,12 @@ export default defineType({
         // ====================================
         // SLIDES
         // ====================================
-
         defineField({
           name: 'slides',
           title: 'Slides',
           type: 'array',
 
-          of: [
-            {
-              type: 'object',
-
-              fields: [
-                defineField({
-                  name: 'title',
-                  title: 'Title',
-                  type: 'string',
-                  validation: (Rule) => Rule.required(),
-                }),
-
-                defineField({
-                  name: 'slug',
-                  title: 'Slug',
-                  type: 'slug',
-
-                  options: {
-                    source: 'title',
-                    maxLength: 96,
-                  },
-
-                  validation: (Rule) => Rule.required(),
-                }),
-
-                defineField({
-                  name: 'image',
-                  title: 'Image',
-                  type: 'image',
-
-                  options: {
-                    hotspot: true,
-                  },
-                }),
-              ],
-
-              preview: {
-                select: {
-                  title: 'title',
-                  media: 'image',
-                },
-              },
-            },
-          ],
+          of: [{type: 'serviceCard'}],
         }),
       ],
 

@@ -414,49 +414,11 @@ export const homepage = defineType({
         // ====================================
 
         defineField({
-          name: 'services',
-          title: 'Services',
+          name: 'slides',
+          title: 'Slides',
           type: 'array',
 
-          of: [
-            {
-              type: 'object',
-
-              fields: [
-                defineField({
-                  name: 'title',
-                  title: 'Title',
-                  type: 'string',
-                }),
-
-                defineField({
-                  name: 'path',
-                  title: 'Path',
-                  type: 'string',
-                  description: 'Example: /services/web-design',
-                }),
-
-                defineField({
-                  name: 'image',
-                  title: 'Image',
-                  type: 'image',
-
-                  options: {
-                    hotspot: true,
-                  },
-                }),
-              ],
-
-              preview: {
-                select: {
-                  title: 'title',
-                  media: 'image',
-                },
-              },
-            },
-          ],
-
-          validation: (Rule) => Rule.min(6),
+          of: [{type: 'serviceCard'}],
         }),
       ],
 
