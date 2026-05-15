@@ -50,28 +50,7 @@ export default defineType({
     defineField({
       name: 'marqueeSection',
       title: 'Marquee Section',
-      type: 'object',
-
-      fields: [
-        defineField({
-          name: 'features',
-          title: 'Features',
-          type: 'array',
-
-          of: [
-            {
-              type: 'string',
-            },
-          ],
-
-          validation: (Rule) => Rule.min(1),
-        }),
-      ],
-
-      options: {
-        collapsible: true,
-        collapsed: false,
-      },
+      type: 'marqueeSection',
     }),
 
     defineField({

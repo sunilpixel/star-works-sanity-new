@@ -87,62 +87,7 @@ export default defineType({
     defineField({
       name: 'featuresSection',
       title: 'Features Section',
-      type: 'object',
-
-      fields: [
-        defineField({
-          name: 'sectionHeading',
-          title: 'Section Heading',
-          type: 'string',
-        }),
-
-        defineField({
-          name: 'slides',
-          title: 'Slides',
-          type: 'array',
-
-          of: [
-            {
-              type: 'object',
-
-              fields: [
-                defineField({
-                  name: 'heading',
-                  title: 'Heading',
-                  type: 'string',
-                }),
-
-                defineField({
-                  name: 'description',
-                  title: 'Description',
-                  type: 'text',
-                }),
-
-                defineField({
-                  name: 'image',
-                  title: 'Image',
-                  type: 'image',
-                  options: {
-                    hotspot: true,
-                  },
-                }),
-              ],
-
-              preview: {
-                select: {
-                  title: 'heading',
-                  media: 'image',
-                },
-              },
-            },
-          ],
-        }),
-      ],
-
-      options: {
-        collapsible: true,
-        collapsed: false,
-      },
+      type: 'featuresSection',
     }),
 
     // ====================================
@@ -319,72 +264,7 @@ export default defineType({
     defineField({
       name: 'deliverablesSection',
       title: 'Deliverables Section',
-      type: 'object',
-
-      fields: [
-        // ====================================
-        // SECTION HEADING
-        // ====================================
-
-        defineField({
-          name: 'sectionHeading',
-          title: 'Section Heading',
-          type: 'string',
-        }),
-
-        // ====================================
-        // DELIVERABLE ITEMS
-        // ====================================
-
-        defineField({
-          name: 'items',
-          title: 'Items',
-          type: 'array',
-
-          of: [
-            {
-              type: 'object',
-
-              fields: [
-                defineField({
-                  name: 'prevNumber',
-                  title: 'prevNumber',
-                  type: 'string',
-                }),
-                defineField({
-                  name: 'nextNumber',
-                  title: 'nextNumber',
-                  type: 'string',
-                }),
-
-                defineField({
-                  name: 'title',
-                  title: 'Title',
-                  type: 'string',
-                }),
-
-                defineField({
-                  name: 'description',
-                  title: 'Description',
-                  type: 'text',
-                }),
-              ],
-
-              preview: {
-                select: {
-                  title: 'title',
-                  subtitle: 'number',
-                },
-              },
-            },
-          ],
-        }),
-      ],
-
-      options: {
-        collapsible: true,
-        collapsed: false,
-      },
+      type: 'deliverablesSection',
     }),
 
     // ====================================
@@ -396,6 +276,10 @@ export default defineType({
       title: 'FAQ Section',
       type: 'faqSection',
     }),
+
+    // ====================================
+    // CTA SECTION
+    // ====================================
 
     defineField({
       name: 'ctaSection',
