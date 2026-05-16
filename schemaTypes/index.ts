@@ -6,6 +6,7 @@ import deliverablesSection from './objects/deliverablesSection'
 import {faqSection} from './objects/faqSection'
 import featuresSection from './objects/featuresSection'
 import marqueeSection from './objects/marqueeSection'
+import {seo} from './objects/seo'
 import {serviceCard} from './objects/serviceCard'
 import serviceDetails from './serviceDetails'
 import services from './services'
@@ -22,4 +23,5 @@ export const schemaTypes = [
   deliverablesSection,
   featuresSection,
   serviceCard,
+  seo,
 ]
