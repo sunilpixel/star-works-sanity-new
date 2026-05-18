@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import {statsSection} from './objects/stats'
 
 export default defineType({
   name: 'services',
@@ -119,57 +120,7 @@ export default defineType({
         // STATS ITEMS
         // ====================================
 
-        defineField({
-          name: 'stats',
-          title: 'Stats',
-          type: 'array',
-
-          of: [
-            {
-              type: 'object',
-
-              fields: [
-                defineField({
-                  name: 'number',
-                  title: 'Number',
-                  type: 'number',
-                  validation: (Rule) => Rule.required(),
-                }),
-
-                defineField({
-                  name: 'suffix',
-                  title: 'Suffix',
-                  type: 'string',
-                  description: 'Example: + , /7',
-                }),
-
-                defineField({
-                  name: 'title',
-                  title: 'Title',
-                  type: 'string',
-                  validation: (Rule) => Rule.required(),
-                }),
-              ],
-
-              preview: {
-                select: {
-                  title: 'title',
-                  number: 'number',
-                  suffix: 'suffix',
-                },
-
-                prepare({title, number, suffix}) {
-                  return {
-                    title,
-                    subtitle: `${number}${suffix || ''}`,
-                  }
-                },
-              },
-            },
-          ],
-
-          validation: (Rule) => Rule.min(4).max(4),
-        }),
+        statsSection,
       ],
 
       options: {

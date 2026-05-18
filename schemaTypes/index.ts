@@ -1,3 +1,4 @@
+import {aboutUs} from './AboutUs'
 import footer from './footer'
 import header from './header'
 import {homepage} from './homepage'
@@ -8,6 +9,7 @@ import featuresSection from './objects/featuresSection'
 import marqueeSection from './objects/marqueeSection'
 import {seo} from './objects/seo'
 import {serviceCard} from './objects/serviceCard'
+import {statItem} from './objects/stats'
 import serviceDetails from './serviceDetails'
 import services from './services'
 
@@ -23,5 +25,7 @@ export const schemaTypes = [
   deliverablesSection,
   featuresSection,
   serviceCard,
+  aboutUs,
   seo,
+  statItem,
 ]
