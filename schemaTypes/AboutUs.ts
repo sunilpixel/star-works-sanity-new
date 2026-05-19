@@ -26,6 +26,11 @@ export const aboutUs = defineType({
       title: 'Hero Section',
       type: 'object',
 
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+
       fields: [
         defineField({
           name: 'heading',
@@ -39,8 +44,6 @@ export const aboutUs = defineType({
           title: 'Description',
           type: 'text',
           rows: 3,
-          initialValue:
-            'Transforming ideas into digital reality since 2018. We are a team of passionate',
         }),
       ],
     }),
@@ -53,6 +56,11 @@ export const aboutUs = defineType({
       name: 'aboutSection',
       title: 'About Section',
       type: 'object',
+
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
 
       fields: [
         defineField({
@@ -84,11 +92,7 @@ export const aboutUs = defineType({
           title: 'Descriptions',
           type: 'array',
 
-          of: [
-            {
-              type: 'text',
-            },
-          ],
+          of: [{type: 'string'}],
         }),
       ],
     }),
@@ -101,6 +105,11 @@ export const aboutUs = defineType({
       name: 'achievementsSection',
       title: 'Achievements Section',
       type: 'object',
+
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
 
       fields: [
         defineField({
@@ -116,10 +125,6 @@ export const aboutUs = defineType({
           type: 'string',
           initialValue: 'Numbers that speak for themselves',
         }),
-
-        // ====================================
-        // STATS ITEMS
-        // ====================================
 
         statsSection,
 
@@ -146,303 +151,281 @@ export const aboutUs = defineType({
                   rows: 4,
                 }),
               ],
-
-              preview: {
-                select: {
-                  title: 'title',
-                  subtitle: 'description',
-                },
-              },
             },
           ],
         }),
+      ],
+    }),
 
-        // ====================================
-        // CORE VALUES
-        // ====================================
+    // ====================================
+    // CORE VALUES SECTION
+    // ====================================
 
+    defineField({
+      name: 'coreValuesSection',
+      title: 'Core Values Section',
+      type: 'object',
+
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+
+      fields: [
         defineField({
-          name: 'coreValuesSection',
-          title: 'Core Values Section',
-          type: 'object',
-
-          fields: [
-            defineField({
-              name: 'smallHeading',
-              title: 'Small Heading',
-              type: 'string',
-              initialValue: 'CORE VALUES',
-            }),
-
-            defineField({
-              name: 'heading',
-              title: 'Heading',
-              type: 'string',
-              initialValue: 'WHAT DRIVES US FORWARD',
-            }),
-
-            defineField({
-              name: 'cards',
-              title: 'Cards',
-              type: 'array',
-
-              of: [
-                {
-                  type: 'object',
-
-                  fields: [
-                    defineField({
-                      name: 'icon',
-                      title: 'Icon',
-                      type: 'image',
-
-                      options: {
-                        hotspot: true,
-                      },
-                    }),
-
-                    defineField({
-                      name: 'title',
-                      title: 'Title',
-                      type: 'string',
-                    }),
-
-                    defineField({
-                      name: 'description',
-                      title: 'Description',
-                      type: 'text',
-                      rows: 3,
-                    }),
-                  ],
-
-                  preview: {
-                    select: {
-                      title: 'title',
-                      subtitle: 'description',
-                      media: 'icon',
-                    },
-                  },
-                },
-              ],
-            }),
-          ],
+          name: 'smallHeading',
+          title: 'Small Heading',
+          type: 'string',
+          initialValue: 'CORE VALUES',
         }),
 
-        // ====================================
-        // MEET THE TEAM
-        // ====================================
-
         defineField({
-          name: 'teamSection',
-          title: 'Team Section',
-          type: 'object',
-
-          fields: [
-            defineField({
-              name: 'smallHeading',
-              title: 'Small Heading',
-              type: 'string',
-              initialValue: 'MEET THE TEAM',
-            }),
-
-            defineField({
-              name: 'heading',
-              title: 'Heading',
-              type: 'string',
-              initialValue: 'BRILLIANT MINDS',
-            }),
-
-            defineField({
-              name: 'members',
-              title: 'Members',
-              type: 'array',
-
-              of: [
-                {
-                  type: 'object',
-
-                  fields: [
-                    defineField({
-                      name: 'name',
-                      title: 'Name',
-                      type: 'string',
-                    }),
-
-                    defineField({
-                      name: 'role',
-                      title: 'Role',
-                      type: 'string',
-                    }),
-
-                    defineField({
-                      name: 'image',
-                      title: 'Image',
-                      type: 'image',
-
-                      options: {
-                        hotspot: true,
-                      },
-                    }),
-                  ],
-
-                  preview: {
-                    select: {
-                      title: 'name',
-                      subtitle: 'role',
-                      media: 'image',
-                    },
-                  },
-                },
-              ],
-            }),
-          ],
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          initialValue: 'WHAT DRIVES US FORWARD',
         }),
 
-        // ====================================
-        // TIMELINE SECTION
-        // ====================================
-
         defineField({
-          name: 'timelineSection',
-          title: 'Timeline Section',
-          type: 'object',
+          name: 'cards',
+          title: 'Cards',
+          type: 'array',
 
-          fields: [
-            defineField({
-              name: 'smallHeading',
-              title: 'Small Heading',
-              type: 'string',
-              initialValue: 'OUR JOURNEY',
-            }),
+          of: [
+            {
+              type: 'object',
 
-            defineField({
-              name: 'heading',
-              title: 'Heading',
-              type: 'string',
-              initialValue: 'MILESTONES & ACHIEVEMENTS',
-            }),
+              fields: [
+                defineField({
+                  name: 'icon',
+                  title: 'Icon',
+                  type: 'image',
 
-            defineField({
-              name: 'timelineItems',
-              title: 'Timeline Items',
-              type: 'array',
-
-              of: [
-                {
-                  type: 'object',
-
-                  fields: [
-                    defineField({
-                      name: 'year',
-                      title: 'Year',
-                      type: 'string',
-                    }),
-
-                    defineField({
-                      name: 'title',
-                      title: 'Title',
-                      type: 'string',
-                    }),
-
-                    defineField({
-                      name: 'description',
-                      title: 'Description',
-                      type: 'text',
-                      rows: 4,
-                    }),
-
-                    defineField({
-                      name: 'image',
-                      title: 'Image',
-                      type: 'image',
-
-                      options: {
-                        hotspot: true,
-                      },
-                    }),
-                  ],
-
-                  preview: {
-                    select: {
-                      title: 'title',
-                      subtitle: 'year',
-                      media: 'image',
-                    },
+                  options: {
+                    hotspot: true,
                   },
-                },
+                }),
+
+                defineField({
+                  name: 'title',
+                  title: 'Title',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'description',
+                  title: 'Description',
+                  type: 'text',
+                }),
               ],
-            }),
+            },
           ],
         }),
+      ],
+    }),
 
-        // ====================================
-        // WHY CHOOSE US SECTION
-        // ====================================
+    // ====================================
+    // TEAM SECTION
+    // ====================================
+
+    defineField({
+      name: 'teamSection',
+      title: 'Team Section',
+      type: 'object',
+
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+
+      fields: [
+        defineField({
+          name: 'smallHeading',
+          title: 'Small Heading',
+          type: 'string',
+          initialValue: 'MEET THE TEAM',
+        }),
 
         defineField({
-          name: 'whyChooseUsSection',
-          title: 'Why Choose Us Section',
-          type: 'object',
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          initialValue: 'BRILLIANT MINDS',
+        }),
 
-          fields: [
-            defineField({
-              name: 'smallHeading',
-              title: 'Small Heading',
-              type: 'string',
-              initialValue: 'WHY CHOOSE US',
-            }),
+        defineField({
+          name: 'members',
+          title: 'Members',
+          type: 'array',
 
-            defineField({
-              name: 'heading',
-              title: 'Heading',
-              type: 'string',
-              initialValue: 'PARTNER WITH THE BEST',
-            }),
+          of: [
+            {
+              type: 'object',
 
-            defineField({
-              name: 'cards',
-              title: 'Cards',
-              type: 'array',
+              fields: [
+                defineField({
+                  name: 'name',
+                  title: 'Name',
+                  type: 'string',
+                }),
 
-              of: [
-                {
-                  type: 'object',
+                defineField({
+                  name: 'role',
+                  title: 'Role',
+                  type: 'string',
+                }),
 
-                  fields: [
-                    defineField({
-                      name: 'icon',
-                      title: 'Icon',
-                      type: 'image',
+                defineField({
+                  name: 'image',
+                  title: 'Image',
+                  type: 'image',
 
-                      options: {
-                        hotspot: true,
-                      },
-                    }),
-
-                    defineField({
-                      name: 'title',
-                      title: 'Title',
-                      type: 'string',
-                    }),
-
-                    defineField({
-                      name: 'description',
-                      title: 'Description',
-                      type: 'text',
-                      rows: 4,
-                    }),
-                  ],
-
-                  preview: {
-                    select: {
-                      title: 'title',
-                      subtitle: 'description',
-                      media: 'icon',
-                    },
+                  options: {
+                    hotspot: true,
                   },
-                },
+                }),
               ],
-            }),
+            },
+          ],
+        }),
+      ],
+    }),
+
+    // ====================================
+    // TIMELINE SECTION
+    // ====================================
+
+    defineField({
+      name: 'timelineSection',
+      title: 'Timeline Section',
+      type: 'object',
+
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+
+      fields: [
+        defineField({
+          name: 'smallHeading',
+          title: 'Small Heading',
+          type: 'string',
+          initialValue: 'OUR JOURNEY',
+        }),
+
+        defineField({
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          initialValue: 'MILESTONES & ACHIEVEMENTS',
+        }),
+
+        defineField({
+          name: 'timelineItems',
+          title: 'Timeline Items',
+          type: 'array',
+
+          of: [
+            {
+              type: 'object',
+
+              fields: [
+                defineField({
+                  name: 'year',
+                  title: 'Year',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'title',
+                  title: 'Title',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'description',
+                  title: 'Description',
+                  type: 'text',
+                }),
+
+                defineField({
+                  name: 'image',
+                  title: 'Image',
+                  type: 'image',
+
+                  options: {
+                    hotspot: true,
+                  },
+                }),
+              ],
+            },
+          ],
+        }),
+      ],
+    }),
+
+    // ====================================
+    // WHY CHOOSE US SECTION
+    // ====================================
+
+    defineField({
+      name: 'whyChooseUsSection',
+      title: 'Why Choose Us Section',
+      type: 'object',
+
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+
+      fields: [
+        defineField({
+          name: 'smallHeading',
+          title: 'Small Heading',
+          type: 'string',
+          initialValue: 'WHY CHOOSE US',
+        }),
+
+        defineField({
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          initialValue: 'PARTNER WITH THE BEST',
+        }),
+
+        defineField({
+          name: 'cards',
+          title: 'Cards',
+          type: 'array',
+
+          of: [
+            {
+              type: 'object',
+
+              fields: [
+                defineField({
+                  name: 'icon',
+                  title: 'Icon',
+                  type: 'image',
+
+                  options: {
+                    hotspot: true,
+                  },
+                }),
+
+                defineField({
+                  name: 'title',
+                  title: 'Title',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'description',
+                  title: 'Description',
+                  type: 'text',
+                }),
+              ],
+            },
           ],
         }),
       ],
