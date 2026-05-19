@@ -59,7 +59,17 @@ export default function deskStructure(S: any) {
       // ======================
       S.listItem()
         .title('About Us Page')
-        .icon(() => '⚡')
+        .icon(() => '🌟')
         .child(S.document().schemaType('aboutUs').documentId('AboutUsPage')),
+
+      S.divider(),
+
+      // ======================
+      // FAQS PAGE
+      // ======================
+      S.listItem()
+        .title('FAQs Page')
+        .icon(() => '❓')
+        .child(S.document().schemaType('faqPage').documentId('faqsPage')),
     ])
 }

@@ -1,4 +1,5 @@
-import {aboutUs} from './AboutUs'
+import {aboutUs} from './aboutUs'
+import faqPage from './faqPage'
 import footer from './footer'
 import header from './header'
 import {homepage} from './homepage'
@@ -28,4 +29,5 @@ export const schemaTypes = [
   aboutUs,
   seo,
   statItem,
+  faqPage,
 ]
