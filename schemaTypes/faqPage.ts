@@ -8,6 +8,16 @@ export default defineType({
   type: 'document',
 
   fields: [
+    // =========================================
+    // SEO
+    // =========================================
+
+    defineField({
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    }),
+
     // HERO SECTION
     defineField({
       name: 'heroSection',
@@ -59,6 +69,10 @@ export default defineType({
           initialValue: 'for personalized help.',
         }),
       ],
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
     }),
 
     // BROWSE CATEGORIES SECTION
@@ -80,7 +94,12 @@ export default defineType({
           type: 'text',
         }),
       ],
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
     }),
+
     defineField({
       name: 'allAnswersSection',
       title: 'All Answers Section',
@@ -173,6 +192,10 @@ export default defineType({
           ],
         }),
       ],
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
     }),
   ],
 
