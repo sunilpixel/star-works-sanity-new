@@ -71,5 +71,13 @@ export default function deskStructure(S: any) {
         .title('FAQs Page')
         .icon(() => '❓')
         .child(S.document().schemaType('faqPage').documentId('faqsPage')),
+
+      // ======================
+      // Privacy Policy PAGE
+      // ======================
+      S.listItem()
+        .title('Privary Policy Page')
+        .icon(() => '🔒')
+        .child(S.document().schemaType('privacyPolicy').documentId('privacyPolicy')),
     ])
 }

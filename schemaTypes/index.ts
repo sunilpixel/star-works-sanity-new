@@ -11,6 +11,7 @@ import marqueeSection from './objects/marqueeSection'
 import {seo} from './objects/seo'
 import {serviceCard} from './objects/serviceCard'
 import {statItem} from './objects/stats'
+import {privacyPolicy} from './privacyPolicy'
 import serviceDetails from './serviceDetails'
 import services from './services'
 
@@ -30,4 +31,5 @@ export const schemaTypes = [
   seo,
   statItem,
   faqPage,
+  privacyPolicy,
 ]
