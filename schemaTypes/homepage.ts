@@ -27,16 +27,34 @@ export const homepage = defineType({
 
       fields: [
         defineField({
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+        }),
+        defineField({
+          name: 'animatedHeading',
+          title: 'animatedHeading',
+          type: 'string',
+        }),
+        defineField({
+          name: 'lastHeading',
+          title: 'lastHeading',
+          type: 'string',
+        }),
+        defineField({
           name: 'Description',
           title: 'Description',
           type: 'text',
           rows: 12,
         }),
-
         defineField({
-          name: 'heading',
-          title: 'Heading',
-          type: 'string',
+          name: 'heroVideo',
+          title: 'Hero Video',
+          type: 'file',
+
+          options: {
+            accept: 'video/mp4,video/webm',
+          },
         }),
 
         defineField({
