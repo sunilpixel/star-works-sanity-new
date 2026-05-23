@@ -27,17 +27,10 @@ export const homepage = defineType({
 
       fields: [
         defineField({
-          name: 'leftDescription',
-          title: 'Left Description',
+          name: 'Description',
+          title: 'Description',
           type: 'text',
-          rows: 3,
-        }),
-
-        defineField({
-          name: 'rightDescription',
-          title: 'Right Description',
-          type: 'text',
-          rows: 3,
+          rows: 12,
         }),
 
         defineField({
