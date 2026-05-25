@@ -12,12 +12,10 @@ export default defineType({
     // SEO
     // =========================================
 
-    defineField({
+    {
       name: 'seo',
-      title: 'SEO',
       type: 'seo',
-    }),
-
+    },
     // HERO SECTION
     defineField({
       name: 'heroSection',

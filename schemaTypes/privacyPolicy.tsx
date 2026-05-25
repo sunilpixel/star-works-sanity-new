@@ -12,12 +12,10 @@ export const privacyPolicy = defineType({
     // SEO
     // =========================================
 
-    defineField({
+    {
       name: 'seo',
-      title: 'SEO',
       type: 'seo',
-    }),
-
+    },
     // Hero Section
     defineField({
       name: 'hero',
