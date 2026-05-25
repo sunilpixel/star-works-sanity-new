@@ -32,9 +32,29 @@ export const homepage = defineType({
           type: 'string',
         }),
         defineField({
-          name: 'animatedHeading',
-          title: 'animatedHeading',
-          type: 'string',
+          name: 'animatedHeadings',
+          title: 'Animated Headings',
+          type: 'array',
+
+          of: [
+            {
+              type: 'object',
+
+              fields: [
+                defineField({
+                  name: 'text',
+                  title: 'Text',
+                  type: 'string',
+                }),
+              ],
+
+              preview: {
+                select: {
+                  title: 'text',
+                },
+              },
+            },
+          ],
         }),
         defineField({
           name: 'lastHeading',
@@ -66,6 +86,10 @@ export const homepage = defineType({
           },
         }),
       ],
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
     }),
 
     // =========================================
@@ -258,14 +282,12 @@ export const homepage = defineType({
                   name: 'path',
                   title: 'Project Link',
                   type: 'string',
-                  description: 'Example: /portfolio/project-name',
                 }),
 
                 defineField({
                   name: 'image',
                   title: 'Image',
                   type: 'image',
-
                   options: {
                     hotspot: true,
                   },
@@ -277,8 +299,79 @@ export const homepage = defineType({
                   type: 'string',
                   initialValue: 'View Project',
                 }),
-              ],
 
+                // NEW FIELDS
+
+                defineField({
+                  name: 'category',
+                  title: 'Category',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'description',
+                  title: 'Description',
+                  type: 'text',
+                  rows: 4,
+                }),
+
+                defineField({
+                  name: 'stats',
+                  title: 'Stats',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'year',
+                  title: 'Year',
+                  type: 'string',
+                }),
+
+                defineField({
+                  name: 'techStack',
+                  title: 'Tech Stack',
+                  type: 'array',
+                  of: [{type: 'string'}],
+                }),
+
+                defineField({
+                  name: 'features',
+                  title: 'Features',
+                  type: 'array',
+
+                  of: [
+                    {
+                      type: 'object',
+
+                      fields: [
+                        defineField({
+                          name: 'title',
+                          title: 'Title',
+                          type: 'string',
+                        }),
+
+                        defineField({
+                          name: 'desc',
+                          title: 'Description',
+                          type: 'text',
+                          rows: 2,
+                        }),
+                      ],
+
+                      preview: {
+                        select: {
+                          title: 'title',
+                          subtitle: 'desc',
+                        },
+                      },
+                    },
+                  ],
+                }),
+              ],
+              options: {
+                collapsible: true,
+                collapsed: false,
+              },
               preview: {
                 select: {
                   title: 'title',
@@ -290,7 +383,6 @@ export const homepage = defineType({
 
           validation: (Rule) => Rule.min(3),
         }),
-
         // ====================================
         // CTA BUTTON
         // ====================================

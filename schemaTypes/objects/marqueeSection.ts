@@ -20,6 +20,10 @@ export default defineType({
       validation: (Rule) => Rule.min(1),
     }),
   ],
+  options: {
+    collapsible: true,
+    collapsed: false,
+  },
 
   preview: {
     prepare() {

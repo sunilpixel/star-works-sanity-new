@@ -73,6 +73,10 @@ export default defineType({
       ],
     }),
   ],
+  options: {
+    collapsible: true,
+    collapsed: false,
+  },
 
   preview: {
     prepare() {

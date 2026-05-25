@@ -65,4 +65,8 @@ export const seo = defineType({
       initialValue: false,
     }),
   ],
+  options: {
+    collapsible: true,
+    collapsed: false,
+  },
 })
