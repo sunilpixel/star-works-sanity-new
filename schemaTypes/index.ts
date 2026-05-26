@@ -1,4 +1,5 @@
 import {aboutUs} from './aboutUs'
+import {blog} from './blog'
 import faqPage from './faqPage'
 import footer from './footer'
 import header from './header'
@@ -32,4 +33,5 @@ export const schemaTypes = [
   statItem,
   faqPage,
   privacyPolicy,
+  blog,
 ]

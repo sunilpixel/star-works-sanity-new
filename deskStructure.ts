@@ -79,5 +79,18 @@ export default function deskStructure(S: any) {
         .title('Privary Policy Page')
         .icon(() => '🔒')
         .child(S.document().schemaType('privacyPolicy').documentId('privacyPolicy')),
+
+      S.divider(),
+
+      // ======================
+      // BLOGS
+      // ======================
+
+      S.listItem()
+        .title('Blogs')
+        .icon(() => '📝')
+        .child(S.documentTypeList('blog').title('Blogs')),
+
+      S.divider(),
     ])
 }

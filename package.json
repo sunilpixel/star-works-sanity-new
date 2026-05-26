@@ -16,16 +16,22 @@
   ],
   "dependencies": {
     "@sanity/vision": "^5.25.0",
+    "node-cron": "^4.2.1",
+    "openai": "^6.39.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "sanity": "^5.25.0",
+    "slugify": "^1.6.9",
     "styled-components": "^6.1.18"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^6.0.0",
+    "@types/node": "^25.9.1",
     "@types/react": "^19.2.14",
     "eslint": "^9.28",
     "prettier": "^3.5",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.22.3",
     "typescript": "^5.8"
   },
   "prettier": {
