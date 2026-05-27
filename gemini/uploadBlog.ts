@@ -166,17 +166,53 @@ async function uploadBlog() {
     // =========================
     // GENERATE AI IMAGE
     // =========================
+    const styles = [
+      'cyberpunk',
+      '3d illustration',
+      'minimal',
+      'glassmorphism',
+      'neon',
+      'dark tech',
+      'futuristic',
+      'anime tech',
+      'startup workspace',
+      'modern ui ux',
+    ]
+
+    const scenes = [
+      'developer desk setup',
+      'AI coding workspace',
+      'programmer using multiple monitors',
+      'modern software company office',
+      'full stack developer environment',
+      'react developer workstation',
+      'next js futuristic dashboard',
+      'backend server room',
+      'cloud computing illustration',
+      'javascript coding scene',
+    ]
+
+    const randomStyle = styles[Math.floor(Math.random() * styles.length)]
+
+    const randomScene = scenes[Math.floor(Math.random() * scenes.length)]
+
     const imagePrompt = encodeURIComponent(`
 ${topic},
-modern web development,
-developer workspace,
-futuristic coding setup,
+
+${randomStyle},
+
+${randomScene},
+
+high quality,
+
 cinematic lighting,
+
 ultra realistic,
-4k
+
+8k
 `)
 
-    const aiImageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}`
+    const aiImageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?seed=${Date.now()}`
 
     console.log('Generating AI Image...')
 
@@ -249,7 +285,27 @@ ultra realistic,
         twitterDescription: aiBlog.seoDescription,
       },
 
-      content: aiBlog.content,
+      content: [
+        {
+          _type: 'block',
+
+          _key: crypto.randomUUID(),
+
+          children: [
+            {
+              _type: 'span',
+
+              _key: crypto.randomUUID(),
+
+              text: aiBlog.content,
+            },
+          ],
+
+          markDefs: [],
+
+          style: 'normal',
+        },
+      ],
     })
 
     console.log('Blog Uploaded Successfully')
