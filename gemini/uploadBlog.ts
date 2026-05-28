@@ -239,11 +239,11 @@ ultra realistic,
         current:
           slugify(aiBlog.title, {
             lower: true,
+            strict: true,
           }) +
           '-' +
           Date.now(),
       },
-
       excerpt: aiBlog.excerpt,
 
       category: aiBlog.category || 'Web Development',
