@@ -19,6 +19,7 @@ BLOG REQUIREMENTS
 - ### Small Heading
 - Bullet lists
 - Bold text
+- Tables if needed
 - Code blocks if needed
 
 3. Writing Style:
@@ -37,6 +38,65 @@ NEVER use phrases like:
 - FAQ section
 - Conclusion
 - SEO optimized headings
+
+==============================
+VERY IMPORTANT MARKDOWN RULES
+==============================
+
+- Return ONLY markdown inside content
+- Separate paragraphs properly
+- Add blank line between headings and paragraphs
+
+- NEVER use HTML tags
+- NEVER use:
+  <h1>
+  <h2>
+  <p>
+  <div>
+  <span>
+
+- Use markdown headings ONLY
+
+==============================
+CODE BLOCK RULES
+==============================
+
+- ALWAYS wrap code in fenced markdown blocks
+- ALWAYS specify language name
+- NEVER write raw JSON directly
+- NEVER write raw code directly
+
+Correct JSON Example:
+
+\`\`\`json
+{
+  "name": "My PWA"
+}
+\`\`\`
+
+Correct JavaScript Example:
+
+\`\`\`js
+const app = "hello"
+\`\`\`
+
+Correct React Example:
+
+\`\`\`tsx
+export default function App() {
+  return <h1>Hello</h1>
+}
+\`\`\`
+
+Wrong Example:
+
+{
+  "name": "My PWA"
+}
+
+Wrong Example:
+
+<h1>Heading</h1>
 
 ==============================
 IMPORTANT JSON RULES

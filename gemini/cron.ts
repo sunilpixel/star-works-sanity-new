@@ -2,23 +2,34 @@ import cron from 'node-cron'
 
 import {exec} from 'child_process'
 
-// DAILY 9 AM
-cron.schedule('0 9 * * *', () => {
-  console.log('Generating Blogs...')
+cron.schedule(
+  '0 9 * * *',
 
-  exec('npx tsx gemini/uploadBlog.ts', (error, stdout, stderr) => {
-    if (error) {
-      console.log(error)
+  () => {
+    console.log('Generating Blogs...')
 
-      return
-    }
+    exec(
+      'npx tsx gemini/uploadBlog.ts',
 
-    console.log(stdout)
+      (error, stdout, stderr) => {
+        if (error) {
+          console.log(error)
 
-    if (stderr) {
-      console.log(stderr)
-    }
-  })
-})
+          return
+        }
+
+        console.log(stdout)
+
+        if (stderr) {
+          console.log(stderr)
+        }
+      },
+    )
+  },
+
+  {
+    timezone: 'Asia/Kolkata',
+  },
+)
 
 console.log('Cron Started...')

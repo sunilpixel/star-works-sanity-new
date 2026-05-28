@@ -81,7 +81,15 @@ export default function deskStructure(S: any) {
         .child(S.document().schemaType('privacyPolicy').documentId('privacyPolicy')),
 
       S.divider(),
-
+      // ======================
+      // PORTFOLIO PAGE
+      // ======================
+      S.listItem()
+        .title('Portfolio Page')
+        .icon(() => '💼')
+        .child(S.document().schemaType('portfolioPage').documentId('portfolioPage')),
+      S.divider(),
+      // =================
       // ======================
       // BLOGS
       // ======================

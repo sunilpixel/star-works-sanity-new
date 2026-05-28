@@ -2,22 +2,18 @@ import 'dotenv/config'
 
 import slugify from 'slugify'
 
-import OpenAI from 'openai'
-
 import {createClient} from '@sanity/client'
 
-// =========================
-// OPENROUTER AI
-// =========================
-const openai = new OpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
+import {generateTopic} from './generateTopic'
 
-  apiKey: process.env.OPENROUTER_API_KEY,
-})
+import {generateBlog} from './generateBlog'
 
-// =========================
-// SANITY CLIENT
-// =========================
+import {uploadImageFromUrl} from './uploadImage'
+
+import {retry, sleep} from './helpers'
+
+import {styles, scenes, moods, cameraAngles, colorThemes, environments} from './constants'
+
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
 
@@ -30,172 +26,74 @@ const client = createClient({
   useCdn: false,
 })
 
-// =========================
-// GENERATE AI TOPIC
-// =========================
-async function generateTopic() {
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'openai/gpt-3.5-turbo',
-
-      messages: [
-        {
-          role: 'user',
-
-          content: `
-Generate ONE unique modern coding blog topic.
-
-Rules:
-- SEO friendly
-- Trending
-- Developer focused
-- Future technology related
-- Web development related
-- Beginner friendly
-- Return ONLY the title
-`,
-        },
-      ],
-    })
-
-    return completion.choices[0].message.content?.trim()
-  } catch (error) {
-    console.log('Topic Error:', error)
-
-    throw error
-  }
-}
-
-// =========================
-// GENERATE BLOG
-// =========================
-async function generateBlog(topic: string) {
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'openai/gpt-3.5-turbo',
-
-      messages: [
-        {
-          role: 'user',
-
-          content: `
-Write a professional coding related SEO blog.
-
-Topic: ${topic}
-
-Requirements:
-- Developer friendly tone
-- SEO optimized
-- H1, H2, H3 headings
-- Beginner friendly
-- Modern web development style
-- Include coding examples if needed
-- 1000+ words
-- Add conclusion
-- Add FAQ section
-
-Return ONLY valid JSON:
-
-{
-  "title": "",
-  "excerpt": "",
-  "content": "",
-  "seoTitle": "",
-  "seoDescription": "",
-  "category": "",
-  "tags": []
-}
-`,
-        },
-      ],
-    })
-
-    const text = completion.choices[0].message.content
-
-    const cleaned = text
-      ?.replace(/```json/g, '')
-      ?.replace(/```/g, '')
-      ?.trim()
-
-    return JSON.parse(cleaned || '{}')
-  } catch (error) {
-    console.log('Blog Error:', error)
-
-    throw error
-  }
-}
-
-// =========================
-// UPLOAD IMAGE TO SANITY
-// =========================
-async function uploadImageFromUrl(imageUrl: string) {
-  const response = await fetch(imageUrl)
-
-  const arrayBuffer = await response.arrayBuffer()
-
-  const buffer = Buffer.from(arrayBuffer)
-
-  return await client.assets.upload('image', buffer, {
-    filename: 'blog-image.jpg',
-  })
-}
-
-// =========================
-// MAIN FUNCTION
-// =========================
 async function uploadBlog() {
   try {
-    // =========================
-    // GENERATE AI TOPIC
-    // =========================
-    console.log('Generating AI Topic...')
+    console.log('Generating Topic...')
 
-    const topic = await generateTopic()
+    const topic = await retry(() => generateTopic())
 
     console.log('Topic:', topic)
 
-    // =========================
-    // GENERATE BLOG
-    // =========================
-    console.log('Generating AI Blog...')
-
-    const aiBlog = await generateBlog(topic || '')
+    const aiBlog = await retry(() => generateBlog(topic || '', 'Web Development'))
 
     console.log(aiBlog)
 
     // =========================
-    // GENERATE AI IMAGE
+    // VALIDATION
     // =========================
-    const styles = [
-      'cyberpunk',
-      '3d illustration',
-      'minimal',
-      'glassmorphism',
-      'neon',
-      'dark tech',
-      'futuristic',
-      'anime tech',
-      'startup workspace',
-      'modern ui ux',
-    ]
+    if (!aiBlog?.title || !aiBlog?.content) {
+      console.log('Invalid Blog Data')
 
-    const scenes = [
-      'developer desk setup',
-      'AI coding workspace',
-      'programmer using multiple monitors',
-      'modern software company office',
-      'full stack developer environment',
-      'react developer workstation',
-      'next js futuristic dashboard',
-      'backend server room',
-      'cloud computing illustration',
-      'javascript coding scene',
-    ]
+      return
+    }
 
+    if (aiBlog.content.length < 500) {
+      console.log('Content Too Short')
+
+      return
+    }
+
+    // =========================
+    // DUPLICATE CHECK
+    // =========================
+    const existing = await client.fetch(`*[_type == "blog" && title == $title][0]`, {
+      title: aiBlog.title,
+    })
+
+    if (existing) {
+      console.log('Duplicate Blog Skipped')
+
+      return
+    }
+
+    const safeTitle = aiBlog.title || topic || 'blog'
+
+    const safeCategory = aiBlog.category || 'Web Development'
+
+    console.log({
+      topic,
+      title: safeTitle,
+      category: safeCategory,
+    })
+
+    // =========================
+    // RANDOM VALUES
+    // =========================
     const randomStyle = styles[Math.floor(Math.random() * styles.length)]
 
     const randomScene = scenes[Math.floor(Math.random() * scenes.length)]
 
+    const randomMood = moods[Math.floor(Math.random() * moods.length)]
+
+    const randomAngle = cameraAngles[Math.floor(Math.random() * cameraAngles.length)]
+
+    const randomColor = colorThemes[Math.floor(Math.random() * colorThemes.length)]
+
+    const randomEnvironment = environments[Math.floor(Math.random() * environments.length)]
+
+    // =========================
+    // IMAGE PROMPT
+    // =========================
     const imagePrompt = encodeURIComponent(`
 ${topic},
 
@@ -203,27 +101,52 @@ ${randomStyle},
 
 ${randomScene},
 
-high quality,
+${randomMood},
 
-cinematic lighting,
+${randomAngle},
+
+${randomColor},
+
+${randomEnvironment},
+
+completely unique composition,
+
+totally different layout,
+
+creative framing,
+
+modern artwork,
+
+high detail,
+
+dynamic lighting,
 
 ultra realistic,
 
-8k
+4k
 `)
 
-    const aiImageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?seed=${Date.now()}`
+    // BETTER RANDOM SEED
+    const randomSeed = Math.floor(Math.random() * 1000000)
+
+    const aiImageUrl = `https://image.pollinations.ai/prompt/${imagePrompt}?seed=${randomSeed}`
 
     console.log('Generating AI Image...')
 
     console.log(aiImageUrl)
 
     // =========================
-    // UPLOAD IMAGE
+    // IMAGE UPLOAD
     // =========================
-    const uploadedImage = await uploadImageFromUrl(aiImageUrl)
+    let uploadedImage = null
 
-    console.log('Image Uploaded')
+    try {
+      uploadedImage = await retry(() => uploadImageFromUrl(aiImageUrl))
+
+      console.log('Image Uploaded')
+    } catch {
+      console.log('Image Upload Failed')
+    }
 
     // =========================
     // CREATE BLOG
@@ -231,28 +154,28 @@ ultra realistic,
     const response = await client.create({
       _type: 'blog',
 
-      title: aiBlog.title,
+      title: safeTitle,
 
       slug: {
         _type: 'slug',
 
         current:
-          slugify(aiBlog.title, {
+          slugify(safeTitle, {
             lower: true,
             strict: true,
           }) +
           '-' +
-          Date.now(),
+          crypto.randomUUID(),
       },
-      excerpt: aiBlog.excerpt,
 
-      category: aiBlog.category || 'Web Development',
+      excerpt: aiBlog.excerpt || 'Read this modern developer blog.',
 
-      tags: aiBlog.tags || [],
+      category: safeCategory,
+
+      tags: aiBlog.tags || ['web development'],
 
       publishedAt: new Date().toISOString(),
 
-      // AUTHOR
       author: {
         name: 'Star Works',
 
@@ -260,60 +183,65 @@ ultra realistic,
       },
 
       // IMAGE
-      mainImage: {
-        _type: 'image',
+      mainImage: uploadedImage
+        ? {
+            _type: 'image',
 
-        asset: {
-          _type: 'reference',
+            asset: {
+              _type: 'reference',
 
-          _ref: uploadedImage._id,
-        },
-      },
+              _ref: uploadedImage._id,
+            },
+          }
+        : undefined,
 
       // SEO
       seo: {
         _type: 'seo',
 
-        metaTitle: aiBlog.seoTitle,
+        metaTitle: aiBlog.seoTitle || safeTitle,
 
-        metaDescription: aiBlog.seoDescription,
+        metaDescription: aiBlog.seoDescription || 'AI generated developer blog.',
 
-        keywords: aiBlog.tags?.join(', '),
+        keywords: aiBlog.tags?.join(', ') || 'web development',
 
-        twitterTitle: aiBlog.seoTitle,
+        twitterTitle: aiBlog.seoTitle || safeTitle,
 
-        twitterDescription: aiBlog.seoDescription,
+        twitterDescription: aiBlog.seoDescription || 'AI generated developer blog.',
       },
 
-      content: [
-        {
-          _type: 'block',
+      content: aiBlog.content || 'No content generated',
 
-          _key: crypto.randomUUID(),
-
-          children: [
-            {
-              _type: 'span',
-
-              _key: crypto.randomUUID(),
-
-              text: aiBlog.content,
-            },
-          ],
-
-          markDefs: [],
-
-          style: 'normal',
-        },
-      ],
+      aiGenerated: true,
     })
 
     console.log('Blog Uploaded Successfully')
 
     console.log(response)
-  } catch (error) {
-    console.log('Upload Error:', error)
+  } catch (error: any) {
+    console.log({
+      message: error?.message,
+      stack: error?.stack,
+    })
   }
 }
 
-uploadBlog()
+// =========================
+// MULTIPLE BLOGS
+// =========================
+async function uploadMultipleBlogs(count = 6) {
+  for (let i = 0; i < count; i++) {
+    console.log(`Uploading Blog ${i + 1}...`)
+
+    await uploadBlog()
+
+    console.log(`Blog ${i + 1} Uploaded`)
+
+    // RATE LIMIT PROTECTION
+    await sleep(10000)
+  }
+
+  console.log('All Blogs Uploaded')
+}
+
+uploadMultipleBlogs(6)
