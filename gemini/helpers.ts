@@ -1,66 +1,46 @@
-// =========================
-// gemini/helpers.ts
-// =========================
+// ==============================
+// RETRY — API fail ho to dubara try
+// ==============================
+export async function retry<T>(fn: () => Promise<T>, attempts = 3, delayMs = 3000): Promise<T> {
+  let lastError: any
 
-export function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
-export async function retry<T>(fn: () => Promise<T>, retries = 5, delay = 5000): Promise<T> {
-  let lastError
-
-  for (let i = 0; i < retries; i++) {
+  for (let i = 0; i < attempts; i++) {
     try {
       return await fn()
     } catch (error: any) {
       lastError = error
+      console.log(`Attempt ${i + 1}/${attempts} failed: ${error?.message}`)
 
-      console.log(`Retry ${i + 1} Failed`)
-
-      // =========================
-      // RATE LIMIT
-      // =========================
-      if (error?.message?.includes('429') || error?.message?.includes('rate limit')) {
-        console.log('Rate Limit Hit')
-
-        await sleep(15000)
-
-        continue
+      if (i < attempts - 1) {
+        console.log(`Retrying in ${delayMs / 1000}s...`)
+        await sleep(delayMs)
       }
-
-      // =========================
-      // TEMPORARY SERVER ERROR
-      // =========================
-      if (error?.message?.includes('503') || error?.message?.includes('502')) {
-        console.log('Temporary Server Error')
-
-        await sleep(10000)
-
-        continue
-      }
-
-      // =========================
-      // INVALID MODEL
-      // =========================
-      if (error?.message?.includes('not a valid model ID')) {
-        console.log('Invalid Model ID')
-
-        break
-      }
-
-      // =========================
-      // DEFAULT RETRY DELAY
-      // =========================
-      await sleep(delay)
     }
   }
 
-  throw lastError
+  throw new Error(`All ${attempts} attempts failed. Last error: ${lastError?.message}`)
 }
 
-export function safeParseJSON(text: string) {
+// ==============================
+// SLEEP — wait karo ms milliseconds
+// ==============================
+export function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+// ==============================
+// SAFE JSON PARSE — crash nahi hoga
+// ==============================
+export function safeParseJSON<T = any>(text: string): T | null {
   try {
-    return JSON.parse(text)
+    // Remove markdown code fences if model added them
+    const cleaned = text
+      .replace(/^```json\s*/i, '')
+      .replace(/^```\s*/i, '')
+      .replace(/```\s*$/i, '')
+      .trim()
+
+    return JSON.parse(cleaned) as T
   } catch {
     return null
   }

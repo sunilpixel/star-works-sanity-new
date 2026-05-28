@@ -1,3 +1,55 @@
+export const styles = [
+  'cyberpunk',
+  '3d illustration',
+  'minimal',
+  'glassmorphism',
+  'neon',
+  'dark tech',
+  'futuristic',
+  'anime tech',
+  'startup workspace',
+  'modern ui ux',
+  'retro futuristic',
+  'cinematic',
+  'digital painting',
+  'isometric',
+  'photorealistic',
+  'sci fi',
+  'abstract tech',
+  'holographic',
+]
+
+export const scenes = [
+  'developer desk setup',
+  'AI coding workspace',
+  'programmer using multiple monitors',
+  'modern software company office',
+  'full stack developer environment',
+  'react developer workstation',
+  'next js futuristic dashboard',
+  'backend server room',
+  'cloud computing illustration',
+  'javascript coding scene',
+  'typescript developer setup',
+  'modern programming workspace',
+  'startup engineering team',
+  'AI robot coding',
+  'future internet technology',
+]
+
+export const moods = [
+  'cinematic lighting',
+  'dramatic lighting',
+  'dark mode aesthetic',
+  'vibrant colors',
+  'ultra detailed',
+  'high contrast',
+  'modern aesthetic',
+  'professional lighting',
+  'creative atmosphere',
+  'soft ambient lighting',
+]
+
 export const cameraAngles = [
   'top view',
   'side angle',
@@ -20,6 +72,7 @@ export const cameraAngles = [
   'panoramic shot',
   'zoomed in detail shot',
 ]
+
 export const colorThemes = [
   'blue neon',
   'purple cyberpunk',
@@ -42,6 +95,7 @@ export const colorThemes = [
   'deep space colors',
   'midnight neon',
 ]
+
 export const environments = [
   'rainy cyber city',
   'space station',
@@ -63,53 +117,4 @@ export const environments = [
   'moon base control room',
   'sci fi engineering bay',
   'floating futuristic island',
-]
-export const styles = [
-  'cyberpunk',
-  '3d illustration',
-  'minimal',
-  'glassmorphism',
-  'neon',
-  'dark tech',
-  'futuristic',
-  'anime tech',
-  'startup workspace',
-  'modern ui ux',
-  'retro futuristic',
-  'cinematic',
-  'digital painting',
-  'isometric',
-  'photorealistic',
-  'sci fi',
-  'abstract tech',
-  'holographic',
-]
-export const scenes = [
-  'developer desk setup',
-  'AI coding workspace',
-  'programmer using multiple monitors',
-  'modern software company office',
-  'full stack developer environment',
-  'react developer workstation',
-  'next js futuristic dashboard',
-  'backend server room',
-  'cloud computing illustration',
-  'javascript coding scene',
-  'typescript developer setup',
-  'modern programming workspace',
-  'startup engineering team',
-  'AI robot coding',
-  'future internet technology',
-]
-export const moods = [
-  'cinematic lighting',
-  'dramatic lighting',
-  'dark mode aesthetic',
-  'vibrant colors',
-  'ultra detailed',
-  'high contrast',
-  'modern aesthetic',
-  'professional lighting',
-  'creative atmosphere',
-  'soft ambient lighting',
 ]

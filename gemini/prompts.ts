@@ -1,10 +1,34 @@
+// ==============================
+// TOPIC PROMPT
+// ==============================
+export const TOPIC_PROMPT = () => `
+You are a tech blog topic generator.
+
+Generate ONE unique, highly specific blog topic for a modern web development blog.
+
+Rules:
+- Topic must be about: JavaScript, TypeScript, React, Next.js, Node.js, CSS, APIs, Web Performance, DevOps, AI tools for developers, or similar modern web tech
+- Topic must be specific — NOT generic like "Learn React" or "Introduction to JavaScript"
+- Topic must be beginner to intermediate level
+- Do NOT add numbering, bullet points, or quotes
+- Return ONLY the plain topic string — nothing else
+
+Good examples:
+How to Build a Real-Time Chat App with Next.js and Supabase
+TypeScript Generics Explained with Real World Use Cases  
+Building a REST API with Node.js and Express from Scratch
+How to Optimize Images in Next.js for Faster Page Loads
+`
+
+// ==============================
+// BLOG PROMPT
+// ==============================
 export const BLOG_PROMPT = (topic: string, category: string) => `
 You are an expert senior SEO content writer for a modern tech blog.
 
 Write a highly engaging, human-like, SEO optimized blog post.
 
 TOPIC: "${topic}"
-
 CATEGORY: "${category}"
 
 ==============================
@@ -14,103 +38,74 @@ BLOG REQUIREMENTS
 1. Write 1500-2000 words.
 
 2. Use proper MARKDOWN formatting:
-- # Heading
-- ## Sub Heading
-- ### Small Heading
-- Bullet lists
-- Bold text
-- Tables if needed
-- Code blocks if needed
+   - # Main Title
+   - ## Section Headings
+   - ### Sub Sections
+   - Bullet lists with -
+   - **Bold** for important terms
+   - Tables where useful
+   - Code blocks with language name
 
 3. Writing Style:
-- Conversational
-- Human sounding
-- Developer friendly
-- Beginner friendly
+   - Conversational, human sounding
+   - Developer friendly, beginner friendly
+   - Explain WHY not just HOW
 
-4. STRICTLY AVOID AI WRITING STYLE:
-NEVER use phrases like:
-- "In today's digital world"
-- "Delve into"
-- "In conclusion"
+4. STRICTLY AVOID these phrases:
+   - "In today's digital world"
+   - "Delve into"
+   - "It's worth noting"
+   - "Leverage" / "Unlock" / "Game changer"
+   - "In conclusion" (use "## Wrapping Up" instead)
 
-5. Add:
-- FAQ section
-- Conclusion
-- SEO optimized headings
-
-==============================
-VERY IMPORTANT MARKDOWN RULES
-==============================
-
-- Return ONLY markdown inside content
-- Separate paragraphs properly
-- Add blank line between headings and paragraphs
-
-- NEVER use HTML tags
-- NEVER use:
-  <h1>
-  <h2>
-  <p>
-  <div>
-  <span>
-
-- Use markdown headings ONLY
+5. Blog structure must include:
+   - Strong introduction (no heading, just start writing)
+   - Multiple ## sections
+   - At least one real working code example
+   - ## Frequently Asked Questions (3-5 questions)
+   - ## Wrapping Up (conclusion)
 
 ==============================
 CODE BLOCK RULES
 ==============================
 
-- ALWAYS wrap code in fenced markdown blocks
-- ALWAYS specify language name
-- NEVER write raw JSON directly
-- NEVER write raw code directly
+ALWAYS use fenced code blocks with language name:
 
-Correct JSON Example:
+Correct:
+\`\`\`typescript
+const name: string = "hello"
+\`\`\`
 
 \`\`\`json
 {
-  "name": "My PWA"
+  "name": "my-app"
 }
 \`\`\`
 
-Correct JavaScript Example:
-
-\`\`\`js
-const app = "hello"
+\`\`\`bash
+npm install react
 \`\`\`
 
-Correct React Example:
-
-\`\`\`tsx
-export default function App() {
-  return <h1>Hello</h1>
-}
-\`\`\`
-
-Wrong Example:
-
-{
-  "name": "My PWA"
-}
-
-Wrong Example:
-
-<h1>Heading</h1>
+NEVER write raw code or JSON without fences.
 
 ==============================
-IMPORTANT JSON RULES
+OUTPUT FORMAT — CRITICAL
 ==============================
 
-Return ONLY valid JSON.
+Return ONLY a single valid JSON object.
+- No text before or after the JSON
+- Do NOT wrap in \`\`\`json blocks
+- Properly escape all newlines as \\n inside the content string
+- Properly escape all quotes inside the content string
+- content field must contain the full markdown blog post
 
 {
-  "title": "",
-  "excerpt": "",
-  "content": "",
-  "seoTitle": "",
-  "seoDescription": "",
+  "title": "Full SEO optimized title here",
+  "excerpt": "2-3 sentence compelling summary for blog listing page",
+  "content": "Full markdown blog post here, properly JSON escaped",
+  "seoTitle": "SEO title under 60 characters",
+  "seoDescription": "Meta description under 160 characters",
   "category": "${category}",
-  "tags": []
+  "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
 }
 `
