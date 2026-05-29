@@ -4,7 +4,7 @@ import {createClient} from '@sanity/client'
 import {generateTopic} from './generateTopic'
 import {generateBlog} from './generateBlog'
 import {uploadImageFromUrl} from './uploadImage'
-import {retry, sleep} from './helpers'
+import {retryWithAlert, sleep} from './helpers'
 import {styles, scenes, moods, cameraAngles, colorThemes, environments} from './constants'
 
 // ==============================
@@ -34,14 +34,13 @@ function getRandom<T>(arr: T[]): T {
 // UPLOAD SINGLE BLOG
 // ==============================
 async function uploadBlog(randomCategory: string): Promise<void> {
-  // ← category parameter
   try {
     // --------------------------
     // STEP 1: Generate Topic
     // --------------------------
     console.log('\n[1/5] Generating topic...')
     console.log('   Category:', randomCategory)
-    const topic = await retry(() => generateTopic(randomCategory))
+    const topic = await retryWithAlert(() => generateTopic(randomCategory), 'Topic Generation')
 
     if (!topic || topic.trim().length < 5) {
       console.log('❌ Invalid topic generated, skipping...')
@@ -54,7 +53,10 @@ async function uploadBlog(randomCategory: string): Promise<void> {
     // STEP 2: Generate Blog
     // --------------------------
     console.log('\n[2/5] Generating blog content...')
-    const aiBlog = await retry(() => generateBlog(topic, randomCategory))
+    const aiBlog = await retryWithAlert(
+      () => generateBlog(topic, randomCategory),
+      'Blog Generation',
+    )
 
     if (!aiBlog?.title || !aiBlog?.content) {
       console.log('❌ Invalid blog data — missing title or content')
@@ -117,7 +119,12 @@ async function uploadBlog(randomCategory: string): Promise<void> {
 
     let uploadedImage = null
     try {
-      uploadedImage = await retry(() => uploadImageFromUrl(aiImageUrl), 2, 3000)
+      uploadedImage = await retryWithAlert(
+        () => uploadImageFromUrl(aiImageUrl),
+        'Image Upload',
+        2,
+        3000,
+      )
       console.log('✅ Image uploaded:', uploadedImage._id)
     } catch (err: any) {
       console.log('⚠️  Image upload failed:', err?.message)
@@ -178,7 +185,7 @@ async function uploadMultipleBlogs(count = 6): Promise<void> {
   console.log(`\n🚀 Starting upload of ${count} blogs...`)
   console.log(`   Time: ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})} IST`)
 
-  // ← Guaranteed category queue — sab categories cover hongi
+  // Guaranteed category queue — sab categories cover hongi
   const categoryQueue: string[] = []
   while (categoryQueue.length < count) {
     const shuffled = [...CATEGORIES].sort(() => Math.random() - 0.5)
@@ -195,7 +202,7 @@ async function uploadMultipleBlogs(count = 6): Promise<void> {
     console.log(`Blog ${i + 1} of ${count} — Category: ${finalQueue[i]}`)
     console.log('='.repeat(50))
 
-    await uploadBlog(finalQueue[i]) // ← category pass ho rahi hai
+    await uploadBlog(finalQueue[i])
     successCount++
 
     if (i < count - 1) {
