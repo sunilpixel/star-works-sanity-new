@@ -37,24 +37,23 @@ export async function generateBlog(topic: string, category: string): Promise<Blo
     throw new Error('Empty response from API')
   }
 
-  // Try to parse JSON
   const parsed = safeParseJSON<BlogData>(text)
 
   if (parsed && parsed.title && parsed.content) {
+    parsed.category = category // ← AI jo bhi return kare, hum force override karenge
     return parsed
   }
 
-  // Fallback — agar JSON parse fail ho
   console.log('JSON parse failed, using fallback...')
   console.log('Raw response preview:', text.substring(0, 300))
 
   return {
     title: topic,
-    excerpt: 'A deep dive into modern web development.',
-    content: text, // raw text as content
+    excerpt: `A deep dive into ${category}.`,
+    content: text,
     seoTitle: topic.substring(0, 60),
     seoDescription: `Learn about ${topic} in this detailed guide.`,
-    category,
-    tags: ['web development', 'javascript'],
+    category, // ← correct
+    tags: [category.toLowerCase(), topic.toLowerCase().split(' ')[0]],
   }
 }

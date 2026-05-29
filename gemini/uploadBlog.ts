@@ -19,6 +19,11 @@ const client = createClient({
 })
 
 // ==============================
+// CATEGORIES
+// ==============================
+const CATEGORIES = ['Web Development', 'Development', 'Marketing', 'Freelancing', 'Designing']
+
+// ==============================
 // HELPER — random array item
 // ==============================
 function getRandom<T>(arr: T[]): T {
@@ -28,13 +33,15 @@ function getRandom<T>(arr: T[]): T {
 // ==============================
 // UPLOAD SINGLE BLOG
 // ==============================
-async function uploadBlog(): Promise<void> {
+async function uploadBlog(randomCategory: string): Promise<void> {
+  // ← category parameter
   try {
     // --------------------------
     // STEP 1: Generate Topic
     // --------------------------
     console.log('\n[1/5] Generating topic...')
-    const topic = await retry(() => generateTopic())
+    console.log('   Category:', randomCategory)
+    const topic = await retry(() => generateTopic(randomCategory))
 
     if (!topic || topic.trim().length < 5) {
       console.log('❌ Invalid topic generated, skipping...')
@@ -47,9 +54,8 @@ async function uploadBlog(): Promise<void> {
     // STEP 2: Generate Blog
     // --------------------------
     console.log('\n[2/5] Generating blog content...')
-    const aiBlog = await retry(() => generateBlog(topic, 'Web Development'))
+    const aiBlog = await retry(() => generateBlog(topic, randomCategory))
 
-    // Validate content
     if (!aiBlog?.title || !aiBlog?.content) {
       console.log('❌ Invalid blog data — missing title or content')
       return
@@ -124,68 +130,41 @@ async function uploadBlog(): Promise<void> {
     console.log('\n[5/5] Uploading blog to Sanity...')
 
     const safeTitle = aiBlog.title || topic
-    const safeCategory = aiBlog.category || 'Web Development'
-    const safeTags = aiBlog.tags?.length ? aiBlog.tags : ['web development']
+    const safeCategory = randomCategory
+    const safeTags = aiBlog.tags?.length ? aiBlog.tags : [randomCategory.toLowerCase()]
 
-    // Slug: title-randomid (no duplicate slugs)
     const slugBase = slugify(safeTitle, {lower: true, strict: true})
     const slugSuffix = crypto.randomUUID().split('-')[0]
     const finalSlug = `${slugBase}-${slugSuffix}`
 
     const doc = await client.create({
       _type: 'blog',
-
       title: safeTitle,
-
-      slug: {
-        _type: 'slug',
-        current: finalSlug,
-      },
-
-      excerpt: aiBlog.excerpt || 'Read this modern developer blog.',
-
+      slug: {_type: 'slug', current: finalSlug},
+      excerpt: aiBlog.excerpt || `Read this ${randomCategory} blog.`,
       category: safeCategory,
-
       tags: safeTags,
-
       publishedAt: new Date().toISOString(),
-
-      author: {
-        name: 'Star Works',
-        role: 'Web Developer',
-      },
-
-      // Image (optional — skip if upload failed)
+      author: {name: 'Star Works', role: 'Web Developer'},
       mainImage: uploadedImage
-        ? {
-            _type: 'image',
-            asset: {
-              _type: 'reference',
-              _ref: uploadedImage._id,
-            },
-          }
+        ? {_type: 'image', asset: {_type: 'reference', _ref: uploadedImage._id}}
         : undefined,
-
-      // SEO fields
       seo: {
         _type: 'seo',
         metaTitle: aiBlog.seoTitle || safeTitle.substring(0, 60),
-        metaDescription: aiBlog.seoDescription || aiBlog.excerpt || 'AI generated developer blog.',
+        metaDescription: aiBlog.seoDescription || aiBlog.excerpt || 'AI generated blog.',
         keywords: safeTags.join(', '),
         twitterTitle: aiBlog.seoTitle || safeTitle.substring(0, 60),
-        twitterDescription:
-          aiBlog.seoDescription || aiBlog.excerpt || 'AI generated developer blog.',
+        twitterDescription: aiBlog.seoDescription || aiBlog.excerpt || 'AI generated blog.',
       },
-
-      // Markdown content
       content: aiBlog.content,
-
       aiGenerated: true,
     })
 
     console.log('✅ Blog uploaded successfully!')
     console.log('   Sanity ID:', doc._id)
     console.log('   Slug:', finalSlug)
+    console.log('   Category:', safeCategory)
   } catch (error: any) {
     console.log('\n❌ uploadBlog failed:')
     console.log('   Message:', error?.message)
@@ -199,17 +178,26 @@ async function uploadMultipleBlogs(count = 6): Promise<void> {
   console.log(`\n🚀 Starting upload of ${count} blogs...`)
   console.log(`   Time: ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})} IST`)
 
+  // ← Guaranteed category queue — sab categories cover hongi
+  const categoryQueue: string[] = []
+  while (categoryQueue.length < count) {
+    const shuffled = [...CATEGORIES].sort(() => Math.random() - 0.5)
+    categoryQueue.push(...shuffled)
+  }
+  const finalQueue = categoryQueue.slice(0, count)
+
+  console.log('   Category queue:', finalQueue)
+
   let successCount = 0
 
   for (let i = 0; i < count; i++) {
     console.log(`\n${'='.repeat(50)}`)
-    console.log(`Blog ${i + 1} of ${count}`)
+    console.log(`Blog ${i + 1} of ${count} — Category: ${finalQueue[i]}`)
     console.log('='.repeat(50))
 
-    await uploadBlog()
+    await uploadBlog(finalQueue[i]) // ← category pass ho rahi hai
     successCount++
 
-    // Wait between blogs (rate limit protection)
     if (i < count - 1) {
       const waitSec = 15
       console.log(`\n⏳ Waiting ${waitSec}s before next blog...`)

@@ -7,7 +7,7 @@ const client = new OpenAI({
   apiKey: process.env.OPENROUTER_API_KEY,
 })
 
-export async function generateTopic(): Promise<string> {
+export async function generateTopic(randomCategory: string): Promise<string> {
   const completion = await client.chat.completions.create({
     model: 'openai/gpt-3.5-turbo',
     temperature: 1.0,
@@ -15,7 +15,7 @@ export async function generateTopic(): Promise<string> {
     messages: [
       {
         role: 'user',
-        content: TOPIC_PROMPT(),
+        content: TOPIC_PROMPT(randomCategory), // ← yahan randomCategory pass karo
       },
     ],
   })
@@ -26,7 +26,6 @@ export async function generateTopic(): Promise<string> {
     throw new Error('Empty topic generated')
   }
 
-  // Clean up any extra quotes or numbering model may add
   const cleaned = text
     .replace(/^["'\d.\-\s]+/, '')
     .replace(/["']$/, '')
