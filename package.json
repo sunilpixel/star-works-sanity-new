@@ -8,11 +8,11 @@
     "node": "20.x"
   },
   "scripts": {
-    "build": "node init && sanity build",
+    "build": "sanity build",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
-    "dev": "node init && sanity dev",
-    "start": "node init && sanity start"
+    "dev": "sanity dev",
+    "start": "sanity start"
   },
   "keywords": [
     "sanity"
